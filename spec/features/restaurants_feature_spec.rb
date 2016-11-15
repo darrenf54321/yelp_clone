@@ -30,10 +30,8 @@ feature 'restaurants' do
       expect(current_path).to eq '/restaurants'
     end
   end
-
-
-
 end
+
 context 'viewing restaurants' do
 
 let!(:kfc){ Restaurant.create(name:'KFC') }
@@ -46,6 +44,7 @@ let!(:kfc){ Restaurant.create(name:'KFC') }
   end
 end
 end
+
 context 'editing restaurants' do
   before { Restaurant.create name: 'KFC', description: 'Deep fried goodness'}
   scenario 'let a user edit a restaurant' do
@@ -57,5 +56,17 @@ context 'editing restaurants' do
     expect(page).to have_content 'Kentucky Fried Chicken'
     expect(page).to have_content 'Deep fried goodness'
     expect(current_path).to eq '/restaurants'
+  end
+end
+
+context 'deleting restaurants' do
+
+  before { Restaurant.create name: 'KFC', description: 'Deep fried goodness' }
+
+  scenario 'removes a restaurant when a user clicks a delete link' do
+    visit '/restaurants'
+    click_link 'Delete KFC'
+    expect(page).not_to have_content 'KFC'
+    expect(page).to have_content 'Restaurant deleted successfully'
   end
 end
