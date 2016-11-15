@@ -14,11 +14,12 @@ feature 'restaurants' do
     Restaurant.create(name: 'KFC')
   end
 
-  scenario 'display restaurants' do
-    visit '/restaurants'
-    expect(page).to have_content('KFC')
-    expect(page).not_to have_content('No restaurants yet')
-  end
+    scenario 'display restaurants' do
+      visit '/restaurants'
+      expect(page).to have_content('KFC')
+      expect(page).not_to have_content('No restaurants yet')
+    end
+
   context 'creating restaurants' do
     scenario 'prompts user to fill out a form, then displays the new restaurant'do
       visit '/restaurants'
@@ -29,6 +30,18 @@ feature 'restaurants' do
       expect(current_path).to eq '/restaurants'
     end
   end
-end
 
+  context 'viewing restaurants' do
+
+  let!(:kfc){ Restaurant.create(name:'KFC') }
+
+    scenario 'lets a user view a restaurant' do
+     visit '/restaurants'
+     click_link 'KFC'
+     expect(page).to have_content 'KFC'
+     expect(current_path).to eq "/restaurants/#{kfc.id}"
+    end
+  end
+
+end
 end
