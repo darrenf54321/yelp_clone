@@ -51,10 +51,10 @@ context 'editing restaurants' do
     visit '/restaurants'
     click_link 'Edit KFC'
     fill_in 'Name', with: 'Kentucky Fried Chicken'
-    fill_in 'Description', with: 'Deep fried goodness'
+    fill_in 'Description', with: 'yummy'
     click_button 'Update Restaurant'
     expect(page).to have_content 'Kentucky Fried Chicken'
-    expect(page).to have_content 'Deep fried goodness'
+    expect(page).to have_content 'yummy'
     expect(current_path).to eq '/restaurants'
   end
 end
