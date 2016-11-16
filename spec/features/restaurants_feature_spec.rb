@@ -22,6 +22,11 @@ feature 'restaurants' do
     scenario 'user can create a resturant using a form and see it listed' do
       visit '/restaurants'
       click_link 'Add a restaurant'
+      click_link 'Sign up'
+      fill_in 'Email', with: 'user@example.co.uk'
+      fill_in 'Password', with: '123456'
+      fill_in 'password_confirmation', with: '123456'
+      click_button 'Log_in'
       fill_in 'Name', with: 'Frank Doubles'
       click_button 'Create Restaurant'
       expect(page).to have_content('Frank Doubles')
