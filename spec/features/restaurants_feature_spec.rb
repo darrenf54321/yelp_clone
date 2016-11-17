@@ -22,11 +22,11 @@ feature 'restaurants' do
     scenario 'user can create a resturant using a form and see it listed' do
       visit '/restaurants'
       click_link 'Add a restaurant'
-      click_link 'Sign up'
+      click_link('Sign up',:match=> :first)
       fill_in 'Email', with: 'user@example.co.uk'
       fill_in 'Password', with: '123456'
-      fill_in 'password_confirmation', with: '123456'
-      click_button 'Log_in'
+      fill_in 'Password confirmation', with: '123456'
+      click_button 'Sign up'
       fill_in 'Name', with: 'Frank Doubles'
       click_button 'Create Restaurant'
       expect(page).to have_content('Frank Doubles')
@@ -37,6 +37,11 @@ feature 'restaurants' do
     context 'an invalid restaurant' do
       scenario 'does not let you submit a name that is too short' do
         visit '/restaurants'
+        click_link('Sign up',:match=> :first)
+        fill_in 'Email', with: 'user@example.co.uk'
+        fill_in 'Password', with: '123456'
+        fill_in 'Password confirmation', with: '123456'
+        click_button 'Sign up'
         click_link 'Add a restaurant'
         fill_in 'Name', with: 'kf'
         click_button 'Create Restaurant'
@@ -47,6 +52,11 @@ feature 'restaurants' do
       scenario 'restaurant name already exists' do
         Restaurant.create(name: "The Alis' Tavern")
         visit '/restaurants'
+        click_link('Sign up',:match=> :first)
+        fill_in 'Email', with: 'user@example.co.uk'
+        fill_in 'Password', with: '123456'
+        fill_in 'Password confirmation', with: '123456'
+        click_button 'Sign up'
         click_link 'Add a restaurant'
         fill_in 'Name', with: "The Alis' Tavern"
         click_button 'Create Restaurant'
@@ -71,6 +81,11 @@ feature 'restaurants' do
 
     scenario 'lets a user edit a restaurant' do
       visit '/restaurants'
+      click_link('Sign up',:match=> :first)
+      fill_in 'Email', with: 'user@example.co.uk'
+      fill_in 'Password', with: '123456'
+      fill_in 'Password confirmation', with: '123456'
+      click_button 'Sign up'
       click_link 'Edit Frank Doubles'
       fill_in 'Name', with: 'Frank Doubles'
       fill_in 'Description', with: 'The best doubles in Trinidad!'
@@ -86,6 +101,11 @@ feature 'restaurants' do
 
     scenario 'lets a user delete a restaurant' do
       visit '/restaurants'
+      click_link('Sign up',:match=> :first)
+      fill_in 'Email', with: 'user@example.co.uk'
+      fill_in 'Password', with: '123456'
+      fill_in 'Password confirmation', with: '123456'
+      click_button 'Sign up'
       click_link 'Delete Frank Doubles'
       expect(page).to have_content 'Restaurant deleted'
       expect(page).not_to have_content 'Frank Doubles'
