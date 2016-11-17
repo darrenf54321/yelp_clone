@@ -24,6 +24,11 @@ feature 'restaurants' do
   context 'creating restaurants' do
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       visit '/restaurants'
+      click_link('Sign up')
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'KFC'
       click_button 'Create Restaurant'
@@ -34,6 +39,11 @@ feature 'restaurants' do
     context 'an invalid restaurant' do
       scenario 'does not let you submit a name that is too short' do
         visit '/restaurants'
+        click_link('Sign up')
+        fill_in('Email', with: 'test@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
         click_link 'Add a restaurant'
         fill_in 'Name', with: 'kf'
         click_button 'Create Restaurant'
@@ -63,6 +73,11 @@ feature 'restaurants' do
     scenario 'let a user edit a restaurant' do
        visit '/restaurants'
        click_link 'Edit KFC'
+       click_link('Sign up', :match => :first)
+       fill_in('Email', with: 'test@example.com')
+       fill_in('Password', with: 'testtest')
+       fill_in('Password confirmation', with: 'testtest')
+       click_button('Sign up')
        fill_in 'Name', with: 'Kentucky Fried Chicken'
        fill_in 'Description', with: 'Deep fried goodness'
        click_button 'Update Restaurant'
@@ -78,6 +93,11 @@ feature 'restaurants' do
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
+      click_link('Sign up', :match => :first)
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
