@@ -18,15 +18,17 @@ feature 'restaurants' do
     end
   end
 
-  context 'creating a resturant' do
+
+  context 'creating a restaurant' do
+
+    let!(:user) do
+     User.create(email: "batman@hotmail.com", password: "123456", password_confirmation: "123456")
+    end
+
     scenario 'user can create a resturant using a form and see it listed' do
+      sign_in(email: user.email, password: user.password)
       visit '/restaurants'
       click_link 'Add a restaurant'
-      click_link('Sign up',:match=> :first)
-      fill_in 'Email', with: 'user@example.co.uk'
-      fill_in 'Password', with: '123456'
-      fill_in 'Password confirmation', with: '123456'
-      click_button 'Sign up'
       fill_in 'Name', with: 'Frank Doubles'
       click_button 'Create Restaurant'
       expect(page).to have_content('Frank Doubles')
@@ -36,12 +38,8 @@ feature 'restaurants' do
 
     context 'an invalid restaurant' do
       scenario 'does not let you submit a name that is too short' do
+        sign_in(email: user.email, password: user.password)
         visit '/restaurants'
-        click_link('Sign up',:match=> :first)
-        fill_in 'Email', with: 'user@example.co.uk'
-        fill_in 'Password', with: '123456'
-        fill_in 'Password confirmation', with: '123456'
-        click_button 'Sign up'
         click_link 'Add a restaurant'
         fill_in 'Name', with: 'kf'
         click_button 'Create Restaurant'
@@ -51,12 +49,8 @@ feature 'restaurants' do
 
       scenario 'restaurant name already exists' do
         Restaurant.create(name: "The Alis' Tavern")
+        sign_in(email: user.email, password: user.password)
         visit '/restaurants'
-        click_link('Sign up',:match=> :first)
-        fill_in 'Email', with: 'user@example.co.uk'
-        fill_in 'Password', with: '123456'
-        fill_in 'Password confirmation', with: '123456'
-        click_button 'Sign up'
         click_link 'Add a restaurant'
         fill_in 'Name', with: "The Alis' Tavern"
         click_button 'Create Restaurant'
@@ -79,13 +73,13 @@ feature 'restaurants' do
   context 'edit a restaurant' do
     let!(:doubles){ Restaurant.create(name:'Frank Doubles') }
 
+    let!(:user) do
+      User.create(email: "batman@hotmail.com", password: "123456", password_confirmation: "123456")
+    end
+
     scenario 'lets a user edit a restaurant' do
+      sign_in(email: user.email, password: user.password)
       visit '/restaurants'
-      click_link('Sign up',:match=> :first)
-      fill_in 'Email', with: 'user@example.co.uk'
-      fill_in 'Password', with: '123456'
-      fill_in 'Password confirmation', with: '123456'
-      click_button 'Sign up'
       click_link 'Edit Frank Doubles'
       fill_in 'Name', with: 'Frank Doubles'
       fill_in 'Description', with: 'The best doubles in Trinidad!'
@@ -96,16 +90,17 @@ feature 'restaurants' do
     end
   end
 
+
   context 'delete a restaurant' do
     before { Restaurant.create(name: 'Frank Doubles', description: 'The best doubles in Trinidad!') }
 
+    let!(:user) do
+      User.create(email: "batman@hotmail.com", password: "123456", password_confirmation: "123456")
+    end
+
     scenario 'lets a user delete a restaurant' do
+      sign_in(email: user.email, password: user.password)
       visit '/restaurants'
-      click_link('Sign up',:match=> :first)
-      fill_in 'Email', with: 'user@example.co.uk'
-      fill_in 'Password', with: '123456'
-      fill_in 'Password confirmation', with: '123456'
-      click_button 'Sign up'
       click_link 'Delete Frank Doubles'
       expect(page).to have_content 'Restaurant deleted'
       expect(page).not_to have_content 'Frank Doubles'
